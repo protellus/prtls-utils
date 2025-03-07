@@ -22,3 +22,5 @@ env/
 # IDE settings (optional)
 .vscode/
 .idea/
+
+*.egg-info/
