@@ -1,5 +1,7 @@
 from django.conf import settings
 
+# Forcing a rebuild
+
 def get_setting(setting_name, default_value=None):
     """
     Retrieves a setting from the Django settings, with an option to provide a default value
