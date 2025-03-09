@@ -1,14 +1,9 @@
 from datetime import datetime, date
-from typing import Union, Dict
-from .get_setting_func import get_setting
+from typing import Union
 
-def format_date(input_date: Union[str, date], output_format: str = None) -> Dict[str, str]:
+def format_date(input_date: Union[str, date], output_format: str = "%Y-%m-%d") -> str:
     """
     Converts a date input (string or date object) to a specified string format.
-
-    This function accepts a date in the form of a string (formatted as 'YYYY-MM-DD')
-    or a `date`/`datetime` object and returns a dictionary containing either the
-    formatted date string or an error message.
 
     Args:
         input_date (Union[str, date]): The input date to process. If a string is provided,
@@ -17,42 +12,45 @@ def format_date(input_date: Union[str, date], output_format: str = None) -> Dict
                              `strftime` format codes (default is '%Y-%m-%d').
 
     Returns:
-        Dict[str, str]: A dictionary containing one of the following keys:
-                        - 'formatted_date': The date formatted as a string according
-                          to `output_format`.
-                        - 'error': An error message indicating what went wrong.
+        str: The date formatted as a string according to `output_format`.
+
+    Raises:
+        ValueError: If `input_date` is a string not in 'YYYY-MM-DD' format or if
+                    `output_format` is invalid.
+        TypeError: If `input_date` is neither a string nor a date object.
 
     Examples:
         >>> format_date('2025-03-09', '%B %d, %Y')
-        {'formatted_date': 'March 09, 2025'}
+        'March 09, 2025'
 
         >>> format_date(date(2025, 3, 9), '%A, %d %B %Y')
-        {'formatted_date': 'Sunday, 09 March 2025'}
+        'Sunday, 09 March 2025'
 
         >>> format_date('09-03-2025')
-        {'error': 'Invalid date format. Expected YYYY-MM-DD.'}
+        Traceback (most recent call last):
+            ...
+        ValueError: Invalid date format. Expected YYYY-MM-DD.
 
         >>> format_date(12345)
-        {'error': 'Invalid type for input_date. Expected string or date object.'}
+        Traceback (most recent call last):
+            ...
+        TypeError: Invalid type for input_date. Expected string or date object.
     """
-    output_format = output_format or get_setting("DEFAULT_DATE_FORMAT", "%Y-%m-%d")
     if isinstance(input_date, (date, datetime)):
         try:
-            formatted_date = input_date.strftime(output_format)
-            return {"formatted_date": formatted_date}
+            return input_date.strftime(output_format)
         except ValueError as e:
-            return {"error": f"Invalid output_format: {e}"}
+            raise ValueError(f"Invalid output_format: {e}")
 
     elif isinstance(input_date, str):
         try:
             parsed_date = datetime.strptime(input_date, "%Y-%m-%d")
             try:
-                formatted_date = parsed_date.strftime(output_format)
-                return {"formatted_date": formatted_date}
+                return parsed_date.strftime(output_format)
             except ValueError as e:
-                return {"error": f"Invalid output_format: {e}"}
+                raise ValueError(f"Invalid output_format: {e}")
         except ValueError:
-            return {"error": "Invalid date format. Expected YYYY-MM-DD."}
+            raise ValueError("Invalid date format. Expected YYYY-MM-DD.")
 
     else:
-        return {"error": "Invalid type for input_date. Expected string or date object."}
+        raise TypeError("Invalid type for input_date. Expected string or date object.")
