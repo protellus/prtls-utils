@@ -1,7 +1,8 @@
 from datetime import datetime, date
 from typing import Union, Dict
+from .get_setting_func import get_setting
 
-def format_date(input_date: Union[str, date], output_format: str = "%Y-%m-%d") -> Dict[str, str]:
+def format_date(input_date: Union[str, date], output_format: str = None) -> Dict[str, str]:
     """
     Converts a date input (string or date object) to a specified string format.
 
@@ -34,6 +35,7 @@ def format_date(input_date: Union[str, date], output_format: str = "%Y-%m-%d") -
         >>> format_date(12345)
         {'error': 'Invalid type for input_date. Expected string or date object.'}
     """
+    output_format = output_format or get_setting("DEFAULT_DATE_FORMAT", "%Y-%m-%d")
     if isinstance(input_date, (date, datetime)):
         try:
             formatted_date = input_date.strftime(output_format)
