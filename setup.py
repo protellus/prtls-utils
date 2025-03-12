@@ -2,13 +2,16 @@ from setuptools import setup, find_packages
 
 setup(
     name="prtls_utils",  
-    version="0.2.0",
-    packages=find_packages(),
-    include_package_data=True,
+    use_scm_version=True, 
+    setup_requires=["setuptools_scm"],
+    author="Michael Britton",
+    author_email="michael.britton@protellus.ca",
+    packages=["prtls_utils"],
     install_requires=[
-        "django==3.2",
-        "asgiref==3.7.2",
-        "sqlparse==0.4.4",
-        "pytz==2023.3"
+        "django==5.1.7",
+        "asgiref==3.8.1",
+        "sqlparse==0.5.3",
+        "pytz==2023.3",
+        "tzdata==2025.1",
     ],
 )
