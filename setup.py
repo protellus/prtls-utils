@@ -8,7 +8,7 @@ setup(
     author_email="michael.britton@protellus.ca",
     packages=["prtls_utils"],
     install_requires=[
-        "django==5.1.7",
+        "django>=5.1.7",
         "asgiref==3.8.1",
         "sqlparse==0.5.3",
         "pytz==2023.3",
