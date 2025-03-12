@@ -8,7 +8,7 @@ setup(
     install_requires=[
         "django==4.2.20",
         "asgiref==3.7.2",
-        "sqlparse==0.4.4",
+        "sqlparse==0.5.0",
         "pytz==2023.3"
     ],
 )
